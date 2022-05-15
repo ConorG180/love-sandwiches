@@ -64,7 +64,24 @@ def calculate_surplus(sales_data):
     Function for calculating surplus sandwiches
     """
     stock_data = SHEET.worksheet("stock").get_all_values()
-    pprint(stock_data[(len(stock_data)-1)])
+    stock_row = stock_data[(len(stock_data)-1)]
+    sales_row = sales_data
+    surplus_row = []
+    for i, j in zip(stock_row, sales_row):
+        calculation = int(i) - j
+        surplus_row.append(calculation)
+    pprint(surplus_row)
+    return surplus_row
+
+
+def update_surplus_worksheet(surplus_data):
+    """
+    Function for updating surplus worksheet
+    """
+    pprint("Surplus worksheet is updating")
+    surplus_worksheet = SHEET.worksheet("surplus")
+    surplus_worksheet.append_row(surplus_data)
+    pprint("The surplus worksheet has been updated!")
 
 
 def main():
@@ -74,7 +91,8 @@ def main():
     data = get_sales_data()
     sales_data = [int(num) for num in data]
     update_sales_worksheet(sales_data)
-    calculate_surplus(sales_data)
+    surplus_data = calculate_surplus(sales_data)
+    update_surplus_worksheet(surplus_data)
 # Your code goes here.
 # You can delete these comments, but do not change the name of this file
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
