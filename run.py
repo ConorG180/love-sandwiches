@@ -1,5 +1,6 @@
 import gspread
 from google.oauth2.service_account import Credentials
+from pprint import pprint
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -58,9 +59,25 @@ def update_sales_worksheet(user_inputs):
     print("Sales worksheet Updated!")
 
 
-data = get_sales_data()
-sales_data = [int(num) for num in data]
-update_sales_worksheet(data)
+def calculate_surplus(sales_data):
+    """
+    Function for calculating surplus sandwiches
+    """
+    stock_data = SHEET.worksheet("stock").get_all_values()
+    pprint(stock_data[(len(stock_data)-1)])
+
+
+def main():
+    """
+    These are the main functions to run the programme.
+    """
+    data = get_sales_data()
+    sales_data = [int(num) for num in data]
+    update_sales_worksheet(sales_data)
+    calculate_surplus(sales_data)
 # Your code goes here.
 # You can delete these comments, but do not change the name of this file
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
+
+
+main()
