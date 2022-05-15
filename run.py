@@ -49,14 +49,14 @@ def validate_data(data):
         return False
 
 
-def update_sales_worksheet(user_inputs):
+def update_worksheet(user_inputs, sheet):
     """
-    Function for updating the sales spreadsheet
+    Function for updating the a worksheet
     """
-    print("Updating sales worksheet")
-    sales_sheet = SHEET.worksheet("sales")
-    sales_sheet.append_row(user_inputs)
-    print("Sales worksheet Updated!")
+    print(f"Updating {sheet} worksheet")
+    sheet = SHEET.worksheet(sheet)
+    sheet.append_row(user_inputs)
+    print(f"{sheet} worksheet Updated!")
 
 
 def calculate_surplus(sales_data):
@@ -74,25 +74,15 @@ def calculate_surplus(sales_data):
     return surplus_row
 
 
-def update_surplus_worksheet(surplus_data):
-    """
-    Function for updating surplus worksheet
-    """
-    pprint("Surplus worksheet is updating")
-    surplus_worksheet = SHEET.worksheet("surplus")
-    surplus_worksheet.append_row(surplus_data)
-    pprint("The surplus worksheet has been updated!")
-
-
 def main():
     """
     These are the main functions to run the programme.
     """
     data = get_sales_data()
     sales_data = [int(num) for num in data]
-    update_sales_worksheet(sales_data)
+    update_worksheet(sales_data, "sales")
     surplus_data = calculate_surplus(sales_data)
-    update_surplus_worksheet(surplus_data)
+    update_worksheet(surplus_data, "surplus")
 # Your code goes here.
 # You can delete these comments, but do not change the name of this file
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
