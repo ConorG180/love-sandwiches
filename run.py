@@ -56,7 +56,7 @@ def update_worksheet(user_inputs, sheet):
     print(f"Updating {sheet} worksheet")
     sheet = SHEET.worksheet(sheet)
     sheet.append_row(user_inputs)
-    print(f"{sheet} worksheet Updated!")
+    print(f" {sheet} worksheet Updated!")
 
 
 def calculate_surplus(sales_data):
@@ -74,6 +74,16 @@ def calculate_surplus(sales_data):
     return surplus_row
 
 
+def get_5_last_entries():
+    sales_worksheet = SHEET.worksheet("sales")
+    max_columns = len(sales_worksheet.get_all_values()[0]) + 1
+    last_5_entries = []
+    for column_number in range(1,max_columns):
+        column = sales_worksheet.col_values(column_number)
+        last_5_entries.append(column[-5:])
+    print(last_5_entries)
+
+
 def main():
     """
     These are the main functions to run the programme.
@@ -83,6 +93,7 @@ def main():
     update_worksheet(sales_data, "sales")
     surplus_data = calculate_surplus(sales_data)
     update_worksheet(surplus_data, "surplus")
+    get_5_last_entries()
 # Your code goes here.
 # You can delete these comments, but do not change the name of this file
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
