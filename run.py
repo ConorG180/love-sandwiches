@@ -75,13 +75,34 @@ def calculate_surplus(sales_data):
 
 
 def get_5_last_entries():
+    """
+    Get last 5 entries of each sales column - list of lists
+    """
+    print("retrieving last 5 sales of each sandwich")
     sales_worksheet = SHEET.worksheet("sales")
     max_columns = len(sales_worksheet.get_all_values()[0]) + 1
     last_5_entries = []
-    for column_number in range(1,max_columns):
+    for column_number in range(1, max_columns):
         column = sales_worksheet.col_values(column_number)
         last_5_entries.append(column[-5:])
-    print(last_5_entries)
+    print("last 5 sales retrieved")
+    return last_5_entries
+
+
+def get_average_sales(sales):
+    """
+    Calculate averages of each sales column - use data returned from
+    get_5_last_entries
+    """
+    print("Calculating average sales")
+    averages = []
+    for column in sales:
+        int_column = [int(num) for num in column]
+        average = round(sum(int_column) / len(int_column))
+        average = round(average * 1.1)
+        averages.append(average)
+    print(f"average sales calculated: {averages}")
+    return averages
 
 
 def main():
@@ -93,10 +114,13 @@ def main():
     update_worksheet(sales_data, "sales")
     surplus_data = calculate_surplus(sales_data)
     update_worksheet(surplus_data, "surplus")
-    get_5_last_entries()
+    last_5_sales = get_5_last_entries()
+    stock_reccomendations = get_average_sales(last_5_sales)
+    update_worksheet(stock_reccomendations, "stock")
 # Your code goes here.
 # You can delete these comments, but do not change the name of this file
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
+# (sum(item_sales)/len(item_sales))
 
 
 main()
